@@ -10,12 +10,9 @@ const glob = require("glob");
 
 const botFiles = {};
 
-if (fs.existsSync("./bot_files")) {
-    fs.rmSync("./bot_files", { recursive: true });
-    fs.mkdirSync("./bot_files");
-}else{
-    fs.mkdirSync("./bot_files");
-}
+fs.rmdirSync("./bot_files", { recursive: true });
+fs.mkdirSync("./bot_files");
+
 
 
 dockerode.listContainers({}, function (err, containers) {
@@ -47,9 +44,14 @@ router.get("/", function(req, res, next) {
         });
         glob('./bot_files' + container +'/conf/*.yml', {}, (err, files)=> {
             files.forEach(file => {
-                if(!file.includes("overrides") && !file.includes("global") && !file.includes("logs")){
-                    //if(!botFiles[container][path.parse(file).name]) botFiles[container][path.parse(file).name] = {};
-                    botFiles[container][path.parse(file).name]["config"] = yaml.load(fs.readFileSync(file, {encoding: 'utf-8'}));
+                if(!err) {
+                    if (!file.includes("overrides") && !file.includes("global") && !file.includes("logs")) {
+                        if (!botFiles[container][path.parse(file).name]) botFiles[container][path.parse(file).name] = {};
+                        botFiles[container][path.parse(file).name]["config"] = yaml.load(fs.readFileSync(file, {encoding: 'utf-8'}));
+                    }
+                }else{
+                    fs.rmdirSync(process.cwd() + "./bot_files" + container, { recursive: true });
+                    console.log(err);
                 }
             });
         });
