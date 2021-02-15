@@ -10,9 +10,12 @@ const glob = require("glob");
 
 const botFiles = {};
 
-
-fs.rmSync("./bot_files", { recursive: true });
-fs.mkdirSync("./bot_files");
+if (fs.existsSync("./bot_files")) {
+    fs.rmSync("./bot_files", { recursive: true });
+    fs.mkdirSync("./bot_files");
+}else{
+    fs.mkdirSync("./bot_files");
+}
 
 
 dockerode.listContainers({}, function (err, containers) {

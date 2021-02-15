@@ -1,5 +1,7 @@
 /api/node_modules/
 /dashboard/node_modules/
-/package.json
+/package-lock.json
+/api/package-lock.json
+/dashboard/package-lock.json
 /api/bot_files/
 .idea

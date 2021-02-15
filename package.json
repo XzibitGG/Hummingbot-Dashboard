@@ -1,0 +1,21 @@
+{
+  "name": "Hummingbot-Dashboard",
+  "description": "",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "apiInstall": "cd api && npm install",
+    "apiStart": "cd api && npm start",
+    "dashboardInstall": "cd dashboard && npm install",
+    "dashboardStart": "cd dashboard && npm start",
+    "start": "concurrently \"npm run apiStart\" \"npm run dashboardStart\"",
+    "install": "concurrently \"npm run apiInstall\" \"npm run dashboardInstall\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XzibitGG/Hummingbot-Dashboard"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
