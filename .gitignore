@@ -1,0 +1,5 @@
+/api/node_modules/
+/dashboard/node_modules/
+/package.json
+/api/bot_files/
+.idea

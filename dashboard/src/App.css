@@ -1,0 +1,14 @@
+body { margin: 0; padding: 0; overflow-x: hidden; }
+
+.Graph{
+    float:left;
+}
+.MuiPaper-root{
+    background-color: #131722;
+}
+.Dashboard{
+    padding: 0px;
+    margin:0px;
+    background-color: #131722;
+}
+
