@@ -7,7 +7,7 @@ import React from "react";
 class ConfigContainer extends React.Component{
     render() {
         return(
-            <List style={{overflow: 'auto', width: "40vw", height: '55vh', margin: '0 40px'}}>
+            <List style={{overflow: 'auto', width: "40vw", height: '50vh', margin: '0 40px'}}>
                 <Grid container spacing={1}>
                     {Object.keys(this.props.config).map(key => (
                         <Grid container item xs={6} spacing={2}>

@@ -6,36 +6,39 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import React from "react";
+import {Typography} from "@material-ui/core";
 
 class MarketOrders extends React.Component{
+
     render() {
+        if(this.props.orders.length === 0){
+            return (
+                <Typography variant="h2" color={"secondary"} align={"center"}><br/>Could Not Find Any Orders.</Typography>
+            );
+        }
+
+        this.props.orders.forEach(order => {delete order.config_file_path; delete order.strategy; delete order.creation_timestamp; delete order.last_update_timestamp;});
         return(
             <TableContainer component={Paper}>
-                <Table aria-label="Orders">
+                <Table aria-label="Orders" >
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Market</TableCell>
-                            <TableCell>Order Type</TableCell>
-                            <TableCell>Amount</TableCell>
-                            <TableCell>Symbol</TableCell>
-                            <TableCell>Last Update Timestamp</TableCell>
-                            <TableCell>Base Asset</TableCell>
-                            <TableCell>Quote Asset</TableCell>
+                            {
+                                Object.keys(this.props.orders[0]).map(cell =>
+                                    <TableCell>{cell}</TableCell>
+                                )
+                            }
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             this.props.orders.map(order => (
                                 <TableRow>
-                                    <TableCell>{order["id"]}</TableCell>
-                                    <TableCell>{order["market"]}</TableCell>
-                                    <TableCell>{order["order_type"]}</TableCell>
-                                    <TableCell>{order["amount"]}</TableCell>
-                                    <TableCell>{order["symbol"]}</TableCell>
-                                    <TableCell>{order["last_update_timestamp"]}</TableCell>
-                                    <TableCell>{order["base_asset"]}</TableCell>
-                                    <TableCell>{order["quote_asset"]}</TableCell>
+                                    {
+                                        Object.keys(order).map(cell =>
+                                            <TableCell>{order[cell]}</TableCell>
+                                        )
+                                    }
                                 </TableRow>
                             ))
                         }
