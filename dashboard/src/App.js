@@ -110,12 +110,12 @@ class App extends Component{
         <div className="Dashboard">
           <header className="Dashboard-Header">
               <Paper className={classes.root} >
-                  <Tabs indicatorColor={"primary"} value={this.currBot} onChange={this.handleBotChange}>
+                  <Tabs indicatorColor={"primary"} value={this.currBot} onChange={this.handleBotChange} centered variant="fullWidth">
                       {this.bots.map((bot) => (
-                          <Tab textColor={"white"} text key={bot} label={bot}/>
+                          <Tab style={{"font-family": "Lucida Console", "font-size": "30px", "color": "#f50057"}} text key={bot} label={bot}/>
                       ))}
                   </Tabs>
-                  <Tabs indicatorColor={"secondary"} value={this.currStrat - 1} onChange={this.handleFileChange} centered>
+                  <Tabs indicatorColor={"secondary"} value={this.currStrat - 1} onChange={this.handleFileChange} centered variant="fullWidth">
                       {this.files.map((strat) => (
                           <Tab textColor={"secondary"} text key={strat} label={strat}/>
                       ))}
