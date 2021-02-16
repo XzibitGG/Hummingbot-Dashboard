@@ -5,3 +5,5 @@
 /dashboard/package-lock.json
 /api/bot_files/
 .idea
+/dashboard/build/
+/build/
