@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-
-import TradingViewWidget from './Components/TradingViewWidget';
-import ConfigContainer from "./Components/ConfigContainer";
-
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Grid from '@material-ui/core/Grid';
 import './App.css';
 import MarketOrders from "./Components/MarketOrders";
 import StrategyContainer from "./Components/StrategyContainer";
@@ -52,7 +47,6 @@ class App extends Component{
     super(props);
     this.currBot = 0;
     this.currStrat = 1;
-    this.market = "";
     this.bots = null;
     this.files = null;
     this.config = null;
@@ -72,9 +66,6 @@ class App extends Component{
                 this.files = Object.keys(res[bots[this.currBot]]);
                 this.config = botFiles[Object.keys(botFiles)[this.currStrat]]["config"];
                 this.orders = botFiles[Object.keys(botFiles)[this.currStrat]]["orders"];
-                this.market = this.config["market"] || this.config["primary_market_trading_pair"]
-                            || this.config["market_1"] || this.config["secondary_market"] || this.config["maker_market_trading_pair"]
-                            || this.config["markets"].split(",")[0];
                 this.files.shift();
                 this.forceUpdate();
             }
@@ -100,9 +91,7 @@ class App extends Component{
   }
 
   render() {
-    if(this.config == null || this.orders == null || this.bots == null || this.files == null || this.market == ""){
-        //this.getBotInstance();
-        //setInterval(function(){this.forceUpdate()}.bind(this), 1000)
+    if(this.config == null || this.orders == null || this.bots == null || this.files == null){
         return (<p className="Loading">Searching for hummingbot instances..</p>);
     }
     const { classes } = this.props;

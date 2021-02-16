@@ -1,5 +1,5 @@
 import Grid from "@material-ui/core/Grid";
-import TradingViewWidget from "../TradingViewWidget";
+import TradingViewWidget from "../Widgets/TradingViewWidget";
 import ConfigContainer from "../ConfigContainer";
 import React from "react";
 
