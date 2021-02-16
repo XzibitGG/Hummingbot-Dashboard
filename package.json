@@ -9,7 +9,7 @@
     "dashboardInstall": "cd dashboard && npm install && npm run build",
     "dashboardStart": "cd dashboard && serve -s build",
     "start": "concurrently \"npm run apiStart\" \"npm run dashboardStart\"",
-    "install": "npm run apiInstall && npm run dashboardInstall"
+    "install": "npm install -g concurrently && npm install -g serve && npm run apiInstall && npm run dashboardInstall"
   },
   "repository": {
     "type": "git",

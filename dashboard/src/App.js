@@ -53,10 +53,8 @@ class App extends Component{
     this.orders = null;
   }
 
-  getEndPoint(endpoint){return "http://localhost:9000/"+endpoint;}
-
   getBotInstance() {
-    fetch(this.getEndPoint("botInstance"))
+    fetch(`http://${window.location.hostname}:9000/botInstance`)
         .then(res => res.json())
         .then(res => {
             let bots = Object.keys(res);
