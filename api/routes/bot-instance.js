@@ -11,7 +11,7 @@ const glob = require("glob");
 
 const botFiles = {};
 
-fs.rmdirSync("./bot_files", { recursive: true });
+if(fs.existsSync("./bot_files")) fs.rmdirSync("./bot_files", {recursive: true});
 fs.mkdirSync("./bot_files");
 
 
