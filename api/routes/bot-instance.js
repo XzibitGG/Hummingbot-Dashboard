@@ -6,6 +6,7 @@ const shell = require("child_process").exec;
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+const sql = require('better-sqlite3');
 const glob = require("glob");
 
 const botFiles = {};
@@ -19,8 +20,7 @@ dockerode.listContainers({}, function (err, containers) {
     if(err) console.log(err);
     containers.forEach(container => {
        if(container["Image"].includes("hummingbot")){
-           shell("docker cp " + container["id"] + ":/data/ " + process.cwd() + "./bot_files" + container);
-           shell("docker cp " + container["id"] + ":/conf/ " + process.cwd() + "./bot_files" + container);
+           shell(`docker cp ${[container]["Id"]}:/data/ ${process.cwd()}/bot_files/${container["Names"]} && docker cp ${[container]["Id"]}:/conf/ ${process.cwd()}/bot_files/${container["Names"]}`);
            botFiles[container["Names"]] = {"id" : container["Id"]};
        }
     });
@@ -28,32 +28,12 @@ dockerode.listContainers({}, function (err, containers) {
 
 router.get("/", function(req, res, next) {
     Object.keys(botFiles).forEach(container => {
-        shell("docker cp " + botFiles[container]["id"] + ":/data/ " + process.cwd() + "./bot_files" + container);
-        shell("docker cp " + botFiles[container]["id"] + ":/conf/ " + process.cwd() + "./bot_files" + container);
-        glob('./bot_files'+ container +'/data/*.sqlite', {}, (err, files)=> {
-            if(!err) {
-                files.forEach(file => {
-                    let orders = require('better-sqlite3')(file, {}).prepare('SELECT * FROM \'Order\'').all();
-                    if (!botFiles[container][path.parse(file).name]) botFiles[container][path.parse(file).name] = {};
-                    botFiles[container][path.parse(file).name]["orders"] = orders;
-                });
-            }else{
-                fs.rmdirSync(process.cwd() + "./bot_files" + container, { recursive: true });
-                console.log(err);
-            }
-        });
-        glob('./bot_files' + container +'/conf/*.yml', {}, (err, files)=> {
-            files.forEach(file => {
-                if(!err) {
-                    if (!file.includes("overrides") && !file.includes("global") && !file.includes("logs")) {
-                        if (!botFiles[container][path.parse(file).name]) botFiles[container][path.parse(file).name] = {};
-                        botFiles[container][path.parse(file).name]["config"] = yaml.load(fs.readFileSync(file, {encoding: 'utf-8'}));
-                    }
-                }else{
-                    fs.rmdirSync(process.cwd() + "./bot_files" + container, { recursive: true });
-                    console.log(err);
-                }
-            });
+        shell(`docker cp ${botFiles[container]["id"]}:/data/ ${process.cwd()}/bot_files/${container} && docker cp ${botFiles[container]["id"]}:/conf/ ${process.cwd()}/bot_files/${container}`);
+        glob.sync('./bot_files'+ container +'/data/*.sqlite').forEach(file => {
+            botFiles[container][path.parse(file).name] = {
+                "orders" : sql(file, {}).prepare('SELECT * FROM \'Order\'').all(),
+                "config" : yaml.load(fs.readFileSync(`./bot_files${container}/conf/${path.parse(file).name}.yml`, {}))
+            };
         });
     });
     res.send(botFiles);

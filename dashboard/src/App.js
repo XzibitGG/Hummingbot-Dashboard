@@ -101,8 +101,8 @@ class App extends Component{
 
   render() {
     if(this.config == null || this.orders == null || this.bots == null || this.files == null || this.market == ""){
-        this.getBotInstance();
-        setInterval(function(){this.forceUpdate()}.bind(this), 1000)
+        //this.getBotInstance();
+        //setInterval(function(){this.forceUpdate()}.bind(this), 1000)
         return (<p className="Loading">Searching for hummingbot instances..</p>);
     }
     const { classes } = this.props;
