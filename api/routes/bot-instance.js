@@ -6,14 +6,10 @@ const shell = require("child_process").exec;
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
-const rimraf = require("rimraf");
 const sql = require('better-sqlite3');
 const glob = require("glob");
 
 const botFiles = {};
-
-
-rimraf("/bot_files", function () { fs.mkdirSync("/bot_files"); });
 
 dockerode.listContainers({}, function (err, containers) {
     if(err) console.log(err);
