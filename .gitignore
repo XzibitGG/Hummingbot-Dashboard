@@ -3,7 +3,7 @@
 /package-lock.json
 /api/package-lock.json
 /dashboard/package-lock.json
-/api/bot_files/
 .idea
 /dashboard/build/
 /build/
+/api/bot_files/

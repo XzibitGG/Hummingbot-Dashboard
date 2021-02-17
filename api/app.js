@@ -7,6 +7,7 @@ var cors = require("cors");
 
 let indexRouter = require('./routes/index');
 let botInstanceRouter = require("./routes/bot-instance");
+let shrimpyNodeRouter = require("./routes/shrimpy-node");
 let app = express();
 
 // view engine setup
@@ -22,5 +23,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/', indexRouter);
 app.use("/botInstance", botInstanceRouter);
+app.use("/shrimpyNode", shrimpyNodeRouter);
 
 module.exports = app;

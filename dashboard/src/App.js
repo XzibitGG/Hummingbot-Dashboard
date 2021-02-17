@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import './App.css';
-import MarketOrders from "./Components/MarketOrders";
 import StrategyContainer from "./Components/StrategyContainer";
 
 const useStyles = theme => ({
@@ -99,20 +98,17 @@ class App extends Component{
               <Paper className={classes.root} >
                   <Tabs indicatorColor={"primary"} value={this.currBot} onChange={this.handleBotChange} centered variant="fullWidth">
                       {this.bots.map((bot) => (
-                          <Tab style={{"font-family": "Lucida Console", "font-size": "30px", "color": "#f50057"}} text key={bot} label={bot}/>
+                          <Tab style={{"font-family": "Lucida Console", "font-size": "20px", "color": "#f50057"}} text key={bot} label={bot}/>
                       ))}
                   </Tabs>
-                  <Tabs indicatorColor={"secondary"} value={this.currStrat - 1} onChange={this.handleFileChange} centered variant="fullWidth">
+                  <Tabs style={{"margin" : "10px"}} indicatorColor={"secondary"} value={this.currStrat - 1} onChange={this.handleFileChange} centered variant="fullWidth">
                       {this.files.map((strat) => (
                           <Tab textColor={"secondary"} text key={strat} label={strat}/>
                       ))}
                   </Tabs>
               </Paper>
           </header>
-            <StrategyContainer classes={classes} config={this.config} market={this.market}/>
-            <div className={classes.root} style={{ overflow: 'auto', height: '40vh', margin : '0px 0', padding : '0px'}}>
-                <MarketOrders orders={this.orders}/>
-            </div>
+            <StrategyContainer classes={classes} orders={this.orders} config={this.config} market={this.market}/>
         </div>
     );
   }

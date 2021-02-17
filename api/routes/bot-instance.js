@@ -11,6 +11,10 @@ const glob = require("glob");
 
 const botFiles = {};
 
+if(!fs.existsSync("./bot_files")){
+    fs.mkdirSync("./bot_files");
+}
+
 dockerode.listContainers({}, function (err, containers) {
     if(err) console.log(err);
     containers.forEach(container => {
