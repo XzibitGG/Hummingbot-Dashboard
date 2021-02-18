@@ -12,7 +12,7 @@ class PerpetualMarketMaking extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={this.props.config["market"]}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={this.props.config["market"]} exchange={this.props.config["exchange"]}/>
                     </Grid>
                 </Grid>

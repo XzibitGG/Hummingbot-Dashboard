@@ -14,7 +14,7 @@ class CrossExchangeMarketMaking extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={maker_market_pair}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={maker_market_pair} exchange={this.props.config["maker_market"]}/>
                     </Grid>
                 </Grid>

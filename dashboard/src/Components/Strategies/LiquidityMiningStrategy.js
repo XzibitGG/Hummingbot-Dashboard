@@ -13,7 +13,7 @@ class LiquidityMiningStrategy extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={markets[0]}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={markets[0]} exchange={this.props.config["exchange"]}/>
                     </Grid>
                 </Grid>

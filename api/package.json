@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "better-sqlite3": "^7.1.2",
+    "ccxt": "^1.41.99",
     "dockerode": "^3.2.1",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "jade": "^1.11.0",
-    "morgan": "^1.10.0",
-    "shrimpy-node": "^0.2.12"
+    "morgan": "^1.10.0"
   }
 }

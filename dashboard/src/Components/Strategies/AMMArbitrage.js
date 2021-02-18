@@ -14,7 +14,7 @@ class AMMArbitrage extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={market_1}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={market_1} exchange={this.props.config["connector_1"]}/>
                     </Grid>
                 </Grid>

@@ -14,7 +14,7 @@ class Arbitrage extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={primary_market}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={primary_market} exchange={this.props.config["primary_market"]}/>
                     </Grid>
                 </Grid>

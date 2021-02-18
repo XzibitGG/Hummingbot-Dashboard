@@ -12,7 +12,7 @@ class CeloArbitrage extends React.Component{
                     <Grid item>
                         <TradingViewWidget market={this.props.config["secondary_market"]}/>
                     </Grid>
-                    <Grid>
+                    <Grid item>
                         <OrderBookWidget market={this.props.config["secondary_market"]} exchange={this.props.config["secondary_exchange"]}/>
                     </Grid>
                 </Grid>

@@ -1,6 +1,8 @@
 import React from "react";
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import {Typography} from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
 
 class OrderBookWidget extends React.Component{
     IntervalID;
@@ -8,29 +10,25 @@ class OrderBookWidget extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            orderbook_data: false,
             asks: [[0, 0]],
             bids: [[0, 0]],
-            spread: 0
+            spread: 0,
+            mid_price: 0,
         };
         this.pair = this.props.market.split("-");
     }
 
     getOrderBook(){
-        fetch(`http://${window.location.hostname}:9000/shrimpyNode?exchange=${this.props.exchange}&base=${this.pair[0]}&quote=${this.pair[1]}`)
+        fetch(`http://${window.location.hostname}:9000/ccxtNode?exchange=${this.props.exchange}&base=${this.pair[0]}&quote=${this.pair[1]}`)
             .then(res => res.json())
             .then(res => {
-                let cumulativeQuantityAsk = 0;
-                let cumulativeQuantityBid = 0;
                 this.setState({
-                    asks : res["asks"].map(function (ask) {
-                        cumulativeQuantityAsk += parseFloat(ask["quantity"]);
-                        return [parseFloat(ask["price"]), cumulativeQuantityAsk];
-                    }),
-                    bids : res["bids"].map(function (bid) {
-                        cumulativeQuantityBid += parseFloat(bid["quantity"]);
-                        return [parseFloat(bid["price"]), cumulativeQuantityBid];
-                    }),
-                    spread: ( (this.state.asks[0][0] - this.state.bids[0][0]) / ( (this.state.asks[0][0] + this.state.bids[0][0]) /2) ) * 100
+                    orderbook_data:  res["orderbook_data"],
+                    asks : res["asks"],
+                    bids : res["bids"],
+                    spread: res["spread"],
+                    mid_price: res["mid_price"]
                 });
                 this.forceUpdate();
             });
@@ -38,23 +36,24 @@ class OrderBookWidget extends React.Component{
 
 
     componentDidMount() {
-        this.IntervalID = setInterval(this.getOrderBook.bind(this), 8000);
+        this.IntervalID = setInterval(this.getOrderBook.bind(this), 1000);
     }
 
     componentWillUnmount() {
         clearInterval(this.IntervalID);
     }
 
-
     render() {
+        if(!this.state.orderbook_data){
+            return(<div><Typography variant="h3" color={"secondary"} align={"center"}><br/>Could Not Find Any Orderbook Data.</Typography></div>);
+        }
         return(
             <div style={{width: "40vw", height: '50vh', margin : "0px"}}>
-                <br/>
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={{
                         chart: {type: 'area', zoomType: 'xy', height: "70%", backgroundColor: "#131722"},
-                        title: {text: `Spread: ${this.state.spread}%`,style: {color: 'white', fontWeight: 'bold'}},
+                        title: {text: ""},
                         xAxis: {minPadding: 0, maxPadding: 0, plotLines: [{color: 'white', value: 0.1523, width: 1, label: {text: 'Actual price', rotation: 90}}], title: {text: 'Price'}},
                         yAxis: [{lineWidth: 1, gridLineWidth: 1, title: null, tickWidth: 1, tickLength: 5, tickPosition: 'inside', labels: {align: 'left', x: 8}},
                             {opposite: true, linkedTo: 0, lineWidth: 1, gridLineWidth: 0, title: null, tickWidth: 1, tickLength: 5, tickPosition: 'inside', labels: {align: 'right', x: -8}}],
@@ -76,6 +75,8 @@ class OrderBookWidget extends React.Component{
                         }]
                     }}
                 />
+                <Typography color={'primary'} aria-setsize={'20px'} component={'button'}>{`Spread: ${this.state.spread}%`}</Typography>
+                <Typography color={'secondary'} aria-setsize={'20px'} component={'button'}>{`Calculated Mid Price: ${this.state.mid_price} ${this.pair[1]}`}</Typography>
             </div>
         );
     }
